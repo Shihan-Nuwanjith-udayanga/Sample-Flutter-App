@@ -10,13 +10,21 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    navigateToLoginScreen(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity ,
       height: double.infinity,
       color: Colors.white,
-      child: Column(
+      /*child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Center(
@@ -33,7 +41,17 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
           )
         ],
-      )
+      )*/
+      child: Center(
+        child: Image.asset('assets/academic logo.jpeg'),
+      ),
     );
+  }
+
+  void navigateToLoginScreen(BuildContext context)
+  {
+    Future.delayed(Duration (seconds: 3), (){
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => LoginPage()));
+    });
   }
 }
