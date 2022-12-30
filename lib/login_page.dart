@@ -119,7 +119,8 @@ class _LoginPageState extends State<LoginPage> {
                 width: 200,
                 child: ElevatedButton(
                   onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+                    loginButtonClick();
+                    // Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
                   },
                   child: Text('Login', style: TextStyle(
                       color: Colors.white
@@ -138,8 +139,34 @@ class _LoginPageState extends State<LoginPage> {
     if(_usernameController.text == 'user123' && _passwordController.text == '1234')
       {
         print('Login success');
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage(username: _usernameController.text,password: _passwordController.text,)),
+        );
       }else{
         print('Login Fail');
+        showAlertDialog(context);
     }
+  }
+
+  showAlertDialog(BuildContext context)
+  {
+    Widget okButton = ElevatedButton(onPressed: (){
+      Navigator.pop(context);
+    }, child: Text(
+      'OK'
+    ));
+
+    AlertDialog alertDialog = AlertDialog(
+      title: Text('Error'),
+      content: Text('Wrong Username and Password'),
+      actions: [
+        okButton
+      ],
+    );
+
+    showDialog(context: context, builder: (BuildContext context){
+      return alertDialog;
+    });
   }
 }
