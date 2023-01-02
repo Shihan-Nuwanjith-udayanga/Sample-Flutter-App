@@ -14,7 +14,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<String> data = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+  List<String> data = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 
   @override
   Widget build(BuildContext context) {
@@ -46,8 +46,38 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-            Expanded(
-              child: ListView.separated(
+           Expanded(
+              child: ListView.builder(
+
+                itemCount: data.length,
+
+              itemBuilder: (context, index){
+                return Container(
+                  margin: EdgeInsets.symmetric(vertical: 10),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.4),
+                        spreadRadius: 3,
+                        blurRadius: 3
+                      )
+                    ]
+                  ),
+                    child: ListTile(
+                      leading: Icon(Icons.calendar_today, color: Colors.orange,),
+                      title: Text(data[index], style: TextStyle(color: Colors.black),),
+                      subtitle: Text('Days', style: TextStyle(color: Colors.black),),
+                      trailing: IconButton(icon: Icon(Icons.delete), color: Colors.red, onPressed: (){},),
+                    ),
+                );
+              }),
+          ),
+
+    // ============== Seperated List View ==============
+    /* Expanded(
+             child: ListView.separated(
                 // scrollDirection: Axis.horizontal,
 
                 itemCount: data.length,
@@ -71,6 +101,8 @@ class _HomePageState extends State<HomePage> {
                   },
               )
             ),
+*/
+            // =============== Log Out Button ================
             Container(
               padding: EdgeInsets.symmetric(vertical: 40),
               child: ElevatedButton(
