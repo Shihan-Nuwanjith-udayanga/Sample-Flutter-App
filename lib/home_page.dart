@@ -14,6 +14,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  List<String> data = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,6 +23,7 @@ class _HomePageState extends State<HomePage> {
         title: Text('Home Page'),
       ),
       body: Container(
+        padding: EdgeInsets.symmetric(horizontal: 10),
        /* child: Center(
           child: ElevatedButton(
             onPressed: (){
@@ -42,6 +45,31 @@ class _HomePageState extends State<HomePage> {
                   style: TextStyle(fontSize: 30),
                 ),
               ),
+            ),
+            Expanded(
+              child: ListView.separated(
+                // scrollDirection: Axis.horizontal,
+
+                itemCount: data.length,
+                separatorBuilder: (context, index){
+                  return Container(color: Colors.grey, height: 1,);
+                },
+                  itemBuilder: (context, index) {
+                    return Container(
+                      margin: EdgeInsets.symmetric(vertical: 10),
+                      height: 50,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: Colors.blue
+                      ),
+                      child: Center(
+                        child: Text( data[index], style: TextStyle(
+                            color: Colors.white
+                        )),
+                      ),
+                    );
+                  },
+              )
             ),
             Container(
               padding: EdgeInsets.symmetric(vertical: 40),
