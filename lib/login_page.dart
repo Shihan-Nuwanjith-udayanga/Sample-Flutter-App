@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:ui_design_class/home_page.dart';
 
+import 'new_home_page.dart';
+
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -141,7 +143,8 @@ class _LoginPageState extends State<LoginPage> {
         print('Login success');
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => HomePage(username: _usernameController.text,password: _passwordController.text,)),
+          // MaterialPageRoute(builder: (context) => HomePage(username: _usernameController.text,password: _passwordController.text,)),
+          MaterialPageRoute(builder: (context) => NewHomePage( )),
         );
       }else{
         print('Login Fail');
