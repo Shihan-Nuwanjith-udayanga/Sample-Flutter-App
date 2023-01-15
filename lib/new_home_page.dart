@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:ui_design_class/rest_api_service.dart';
 import 'package:ui_design_class/user.dart';
 import 'package:ui_design_class/user_screen.dart';
@@ -17,6 +18,12 @@ class _NewHomePageState extends State<NewHomePage> {
 
   List<User> usersList = <User>[];
 
+  List<bool> favouriteStatusList = [];
+
+  List<User> favouriteUsersList = [];
+
+  late Icon favouriteIcon;
+
   @override
   void initState() {
     // TODO: implement initState
@@ -24,13 +31,20 @@ class _NewHomePageState extends State<NewHomePage> {
 
     // apiService.getUsers();
     apiService.getUsers().then((value){
-      usersList = value;
 
-      setState((){
+     /* setState((){
         usersList=value;
-      });
+      });*/
+
+      if(value.isNotEmpty){
+        for(User user in value){
+          favouriteStatusList.add(false);
+        }
+      }
 
     });
+
+    favouriteIcon = Icon(Icons.favorite_border, color: Colors.red,);
 
   }
 
@@ -78,8 +92,26 @@ class _NewHomePageState extends State<NewHomePage> {
                               child: Image.network(snapShot.data![index].image, fit: BoxFit.cover, width: 60, height: 60,),
                             ),
                             trailing: IconButton(
-                              icon: Icon(Icons.favorite_border),
-                              onPressed: () {  } ,
+                              icon: getFavouriteIcon(index),
+                              onPressed: () {
+                                setState(() {
+                                  favouriteStatusList[index] = !favouriteStatusList[index];
+
+                                  if(favouriteUsersList.contains(snapShot.data![index])){
+                                    favouriteUsersList.remove(snapShot.data![index]);
+                                    print("Remove");
+                                  }else{
+                                    favouriteUsersList.add(snapShot.data![index]);
+                                    print("Add");
+                                  }
+
+                                });
+
+                                /*for(var item in favouriteUsersList){
+                                  print(item.name);
+                                }*/
+                                
+                              } ,
                             ),
                           ),
                         ),
@@ -87,12 +119,20 @@ class _NewHomePageState extends State<NewHomePage> {
                     },
                   );
                 }else{
-                  return Container(
+                  /*return Container(
                     child: Center(
                       child: Text('Loading...', style: TextStyle(
                         color: Colors.black,
                         fontSize: 15,
                       )),
+                    ),
+                  );*/
+                  // ================ Create a loading progress bar using flutter spinkit =======
+                  return Container(
+                    child: Center(
+                      child: SpinKitCircle(
+                        color: Colors.orange,
+                      ),
                     ),
                   );
                 }
@@ -154,5 +194,13 @@ class _NewHomePageState extends State<NewHomePage> {
         ),
       ),
     );
+  }
+
+  Icon getFavouriteIcon(int index){
+    if(favouriteStatusList[index]){
+      return Icon(Icons.favorite, color: Colors.red,);
+    }else{
+      return Icon(Icons.favorite_border, color: Colors.red,);
+    }
   }
 }
