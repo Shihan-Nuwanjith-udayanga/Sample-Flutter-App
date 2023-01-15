@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:ui_design_class/rest_api_service.dart';
+import 'package:ui_design_class/user.dart';
 import 'package:ui_design_class/user_screen.dart';
 
 class NewHomePage extends StatefulWidget {
@@ -14,13 +15,22 @@ class _NewHomePageState extends State<NewHomePage> {
 
   final apiService = RestAPIService();
 
+  List<User> usersList = <User>[];
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 
-    apiService.getUsers();
+    // apiService.getUsers();
+    apiService.getUsers().then((value){
+      usersList = value;
 
+      setState((){
+        usersList=value;
+      });
+
+    });
 
   }
 
@@ -33,7 +43,7 @@ class _NewHomePageState extends State<NewHomePage> {
       body: Container(
         child: Column(
           children: [
-            Expanded(child: FutureBuilder(
+            /*Expanded(child: FutureBuilder(
               future: apiService.getUsers(),
               builder: (context , snapShot){
                 if(snapShot.hasData){
@@ -87,6 +97,56 @@ class _NewHomePageState extends State<NewHomePage> {
                   );
                 }
               },
+            ))*/
+
+            Expanded(child: ListView.builder(
+              itemCount: usersList.length ?? 0,
+              itemBuilder: (context, index){
+                if(usersList != null && usersList.isNotEmpty){
+                  return InkWell(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => UserScreen(
+                        user: usersList[index],
+                      )));
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                                blurRadius: 3,
+                                spreadRadius: 3,
+                                color: Colors.grey.withOpacity(0.3)
+                            )
+                          ]
+                      ),
+                      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                      child: ListTile(
+                        title: Text(usersList[index].name ?? '', style: TextStyle(fontSize: 18, color: Colors.black),),
+                        subtitle: Text(usersList[index].city ?? '', style: TextStyle(fontSize: 18, color: Colors.black),),
+                        leading: ClipOval(
+                          child: Image.network(usersList[index].image, fit: BoxFit.cover, width: 60, height: 60,),
+                        ),
+                        trailing: IconButton(
+                          icon: Icon(Icons.favorite_border),
+                          onPressed: () {  } ,
+                        ),
+                      ),
+                    ),
+                  );
+                }else{
+                  return Container(
+                    child: Center(
+                      child: Text('Loading...', style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 15,
+                      )),
+                    ),
+                  );
+                }
+              }
             ))
           ],
         ),
