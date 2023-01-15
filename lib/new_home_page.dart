@@ -43,7 +43,7 @@ class _NewHomePageState extends State<NewHomePage> {
       body: Container(
         child: Column(
           children: [
-            /*Expanded(child: FutureBuilder(
+            Expanded(child: FutureBuilder(
               future: apiService.getUsers(),
               builder: (context , snapShot){
                 if(snapShot.hasData){
@@ -97,8 +97,10 @@ class _NewHomePageState extends State<NewHomePage> {
                   );
                 }
               },
-            ))*/
+            ))
 
+            // ========= List View using without future builder method. ===========
+           /*
             Expanded(child: ListView.builder(
               itemCount: usersList.length ?? 0,
               itemBuilder: (context, index){
@@ -147,7 +149,7 @@ class _NewHomePageState extends State<NewHomePage> {
                   );
                 }
               }
-            ))
+            ))*/
           ],
         ),
       ),
